@@ -1,0 +1,27 @@
+{
+  "name": "areto-ejs",
+  "version": "0.1.0",
+  "description": "EJS with layout and blocks",
+  "author": {
+    "name": "Maxim Khorin",
+    "email": "maksimovichu@gmail.com"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": "10.7.0"
+  },
+  "homepage": "https://github.com/mkhorin/areto-ejs",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mkhorin/areto-ejs.git"
+  },
+  "dependencies": {
+    "ejs": "^2.6.1"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2"
+  },
+  "scripts": {
+    "test": "echo: \"Error: no test specified\" && exit 1"
+  }
+}

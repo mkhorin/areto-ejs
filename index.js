@@ -30,12 +30,9 @@ const renderFile = module.exports = function (file, options, fn) {
         delete options._layoutFile;
 
         let engine = options.settings['view engine'] || 'ejs';
-        let desiredExt = '.' + engine;
-        if (layout === true) {
-            layout = path.sep + 'layout' + desiredExt;
-        }
-        if (path.extname(layout) !== desiredExt) {
-            layout += desiredExt;
+        let extension = '.' + engine;
+        if (path.extname(layout) !== extension) {
+            layout += extension;
         }
         if (layout.length > 0 && layout[0] === path.sep) {
             layout = path.join(options.settings.views, layout.slice(1));
@@ -47,19 +44,19 @@ const renderFile = module.exports = function (file, options, fn) {
     });
 };
 
-function layout (view) {
-    this._layoutFile = view;
+function layout (file) {
+    this._layoutFile = file;
 }
 
 function block (name, html) {
-    let blk = this[name];
-    if (!blk) {
-        blk = this[name] = new Block();
+    let item = this[name];
+    if (!item) {
+        item = this[name] = new Block;
     }
     if (html) {
-        blk.append(html);
+        item.append(html);
     }
-    return blk;
+    return item;
 }
 
 function script (path, type) {

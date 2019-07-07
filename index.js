@@ -48,13 +48,13 @@ function layout (file) {
     this._layoutFile = file;
 }
 
-function block (name, html) {
+function block (name, html, method = 'append') {
     let item = this[name];
-    if (!item) {
+    if (!Object.prototype.hasOwnProperty.call(this, name)) {
         item = this[name] = new Block;
     }
     if (html) {
-        item.append(html);
+        item[method](html);
     }
     return item;
 }

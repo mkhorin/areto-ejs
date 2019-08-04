@@ -6,9 +6,9 @@ const path = require('path');
 const renderFile = module.exports = function (file, options, fn) {
 
     if (!options.blocks) {
-        let blocks = {
-            'scripts': new Block,
-            'stylesheets': new Block
+        const blocks = {
+            scripts: new Block,
+            stylesheets: new Block
         };
         options.blocks = blocks;
         options.scripts = blocks.scripts;
@@ -29,8 +29,11 @@ const renderFile = module.exports = function (file, options, fn) {
         }
         delete options._layoutFile;
 
-        let engine = options.settings['view engine'] || 'ejs';
-        let extension = '.' + engine;
+        if (options._layoutOptions) {
+            Object.assign(options, options._layoutOptions);
+            delete options._layoutOptions;
+        }
+        let extension = '.' + (options.settings['view engine'] || 'ejs');
         if (path.extname(layout) !== extension) {
             layout += extension;
         }
@@ -44,8 +47,9 @@ const renderFile = module.exports = function (file, options, fn) {
     });
 };
 
-function layout (file) {
+function layout (file, options) {
     this._layoutFile = file;
+    this._layoutOptions = options;
 }
 
 function block (name, html, method = 'append') {
@@ -61,33 +65,36 @@ function block (name, html, method = 'append') {
 
 function script (path, type) {
     if (path) {
-        this.append('<script src="' + path + '"' + (type ? 'type="' + type + '"' : '') + '></script>');
+        this.append('<script src="'+ path +'"'+ (type ? 'type="' + type + '"' : '')+ '></script>');
     }
     return this;
 }
 
 function stylesheet (path, media) {
     if (path) {
-        this.append('<link rel="stylesheet" href="' + path + '"' + (media ? 'media="' + media + '"' : '') + ' />');
+        this.append('<link rel="stylesheet" href="'+ path +'"'+ (media ? 'media="'+ media +'"' : '') +' />');
     }
     return this;
 }
 
 function Block () {
-    this.html = [];
+    this._data = [];
 }
 
 Object.assign(Block.prototype, {
     toString: function () {
-        return this.html.join('\n');
+        return this._data.join('\n');
     },
     append: function (more) {
-        this.html.push(more);
+        this._data.push(more);
     },
     prepend: function (more) {
-        this.html.unshift(more);
+        this._data.unshift(more);
     },
-    replace: function (instead) {
-        this.html = [instead];
+    replace: function (data) {
+        this._data = [data];
+    },
+    get: function () {
+        return this._data;
     }
 });

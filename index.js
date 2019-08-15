@@ -33,7 +33,7 @@ const renderFile = module.exports = function (file, options, fn) {
             Object.assign(options, options._layoutOptions);
             delete options._layoutOptions;
         }
-        let extension = '.' + (options.settings['view engine'] || 'ejs');
+        const extension = '.' + (options.settings['view engine'] || 'ejs');
         if (path.extname(layout) !== extension) {
             layout += extension;
         }
@@ -85,16 +85,21 @@ Object.assign(Block.prototype, {
     toString: function () {
         return this._data.join('\n');
     },
-    append: function (more) {
-        this._data.push(more);
+    append: function (value) {
+        this._data.push(value);
     },
-    prepend: function (more) {
-        this._data.unshift(more);
+    prepend: function (value) {
+        this._data.unshift(value);
     },
-    replace: function (data) {
-        this._data = [data];
+    replace: function (value) {
+        this._data = [value];
     },
     get: function () {
         return this._data;
+    },
+    defaults: function (value) {
+        if (!this._data.length) {
+            this._data.push(value);
+        }
     }
 });

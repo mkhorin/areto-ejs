@@ -52,17 +52,6 @@ function layout (file, options) {
     this._layoutOptions = options;
 }
 
-function block (name, html, method = 'append') {
-    let item = this[name];
-    if (!Object.prototype.hasOwnProperty.call(this, name)) {
-        item = this[name] = new Block;
-    }
-    if (html) {
-        item[method](html);
-    }
-    return item;
-}
-
 function script (path, type) {
     if (path) {
         this.append('<script src="'+ path +'"'+ (type ? 'type="' + type + '"' : '')+ '></script>');
@@ -77,29 +66,46 @@ function stylesheet (path, media) {
     return this;
 }
 
-function Block () {
-    this._data = [];
+function block (name, ...values) {
+    let item = this[name];
+    if (!Object.prototype.hasOwnProperty.call(this, name)) {
+        item = this[name] = new Block;
+    }
+    if (values.length) {
+        item.append(...values);
+    }
+    return item;
 }
 
-Object.assign(Block.prototype, {
-    toString: function () {
-        return this._data.join('\n');
-    },
-    append: function (value) {
-        this._data.push(value);
-    },
-    prepend: function (value) {
-        this._data.unshift(value);
-    },
-    replace: function (value) {
-        this._data = [value];
-    },
-    get: function () {
+class Block {
+
+    constructor () {
+        this._data = [];
+    }
+
+    get () {
         return this._data;
-    },
-    defaults: function (value) {
+    }
+
+    append () {
+        this._data.push(...arguments);
+    }
+
+    prepend () {
+        this._data.unshift(...arguments);
+    }
+
+    replace () {
+        this._data = [...arguments];
+    }
+
+    defaults () {
         if (!this._data.length) {
-            this._data.push(value);
+            this._data.push(...arguments);
         }
     }
-});
+
+    toString () {
+        return this._data.join('\n');
+    }
+}

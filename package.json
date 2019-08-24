@@ -1,6 +1,6 @@
 {
   "name": "areto-ejs",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "EJS with layout and blocks",
   "author": {
     "name": "Maxim Khorin",

@@ -1,6 +1,6 @@
 {
   "name": "areto-ejs",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "EJS with layout and blocks",
   "author": {
     "name": "Maxim Khorin",
@@ -8,7 +8,7 @@
   },
   "license": "MIT",
   "engines": {
-    "node": "10.7.0"
+    "node": ">=12.13.1"
   },
   "homepage": "https://github.com/mkhorin/areto-ejs",
   "repository": {
@@ -16,7 +16,7 @@
     "url": "https://github.com/mkhorin/areto-ejs.git"
   },
   "dependencies": {
-    "ejs": "^2.6.2"
+    "ejs": "^3.0.1"
   },
   "devDependencies": {
     "chai": "^4.1.2"
